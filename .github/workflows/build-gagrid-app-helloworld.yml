@@ -27,5 +27,3 @@ jobs:
         run: cat ~/.m2/settings.xml
       - name: package
         run: mvn -DskipTests=true package
-      - name: run
-        run: java -jar target/gagrid-app-helloworld-1.0-SNAPSHOT.jar
