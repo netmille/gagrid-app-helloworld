@@ -1,0 +1,31 @@
+name: gagrid-functions-helloworld
+'on':
+  workflow_dispatch: null
+  push:
+    branches:
+      - master
+jobs:
+  package:
+    name: Build 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '8'
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          repositories: >-
+            [{ "id": "github", "name": "netmille", "url":
+            "https://maven.pkg.github.com/netmille/gagrid-functions-helloworld" }, { "id": "github", "name": "netmille", "url":
+            "https://maven.pkg.github.com/netmille/gagrid-functions-helloworld" }]
+          servers: >-
+            [{ "id": "github", "username": "netmille", "password": "${{ secrets.MY_TOKEN }}" } ]
+      - name: View settings.xml
+        run: cat ~/.m2/settings.xml
+      - name: package
+        run: mvn -DskipTests=true package
+      - name: run
+        run: java -jar target/gagrid-app-helloworld-1.0-SNAPSHOT.jar
