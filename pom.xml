@@ -26,12 +26,12 @@
 		<dependency>
 			<groupId>com.netmillennium.gagrid</groupId>
 	                <artifactId>gagrid-core</artifactId>
-	                <version>0.0.1-SNAPSHOT</version>
+	                <version>${gagrid-core.version}</version>
 		</dependency>
                <dependency>
 			<groupId>com.netmillennium.gagrid.services.helloworld</groupId>
 	                <artifactId>gagrid-services-helloworld</artifactId>
-	                <version>${gagrid-core.version}</version>
+	                <version>0.0.1-SNAPSHOT</version>
 		</dependency>
     <dependency>
         <groupId>org.apache.ignite</groupId>
