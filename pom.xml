@@ -20,6 +20,7 @@
 			http://apache-ignite-users.70518.x6.nabble.com/ERROR-h2-Unsupported-connection-setting-quot-MULTI-THREADED-quot-td31472.html
 		-->
 		<h2.version>1.4.197</h2.version>
+                 <gagrid-core.version>0.1.0-beta</gagrid-core.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -30,7 +31,7 @@
                <dependency>
 			<groupId>com.netmillennium.gagrid.services.helloworld</groupId>
 	                <artifactId>gagrid-services-helloworld</artifactId>
-	                <version>0.0.1-SNAPSHOT</version>
+	                <version>${gagrid-core.version}</version>
 		</dependency>
     <dependency>
         <groupId>org.apache.ignite</groupId>
