@@ -1,4 +1,4 @@
-name: gagrid-functions-helloworld
+name: gagrid-app-helloworld
 'on':
   workflow_dispatch: null
   push:
