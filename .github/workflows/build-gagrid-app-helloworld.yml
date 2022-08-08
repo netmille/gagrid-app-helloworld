@@ -19,8 +19,8 @@ jobs:
         with:
           repositories: >-
             [{ "id": "github", "name": "netmille", "url":
-            "https://maven.pkg.github.com/netmille/gagrid-functions-helloworld" }, { "id": "github", "name": "netmille", "url":
-            "https://maven.pkg.github.com/netmille/gagrid-functions-helloworld" }]
+            "https://maven.pkg.github.com/netmille/gagrid-services-helloworld" }, { "id": "github", "name": "netmille", "url":
+            "https://maven.pkg.github.com/netmille/gagrid-services-helloworld" }]
           servers: >-
             [{ "id": "github", "username": "netmille", "password": "${{ secrets.MY_TOKEN }}" } ]
       - name: View settings.xml
