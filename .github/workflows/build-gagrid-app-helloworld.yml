@@ -27,12 +27,12 @@ jobs:
         run: cat ~/.m2/settings.xml
       - name: package
         run: mvn -DskipTests=true package
-      - name: Build & push Docker image
-        uses: mr-smithers-excellent/docker-build-push@v5
-        with:
-           image: netmille/gagrid-app-helloworld
-           tags: v0.0.1-SNAPSHOT
-           registry: registry.hub.docker.com/v2/
-           dockerfile: Dockerfile
-           username: ${{ secrets.DOCKER_USERNAME }}
-           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker
+        env:
+           DOCKER_USER: ${{  secrets.DOCKER_USERNAME }}
+           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+      - name: Build Docker Image
+        run: docker build -t netmille/gagrid-app-helloworld .
+      - name: Push Docker Image
+        run: docker push netmille/gagrid-app-helloworld 
