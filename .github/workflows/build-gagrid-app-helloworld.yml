@@ -32,7 +32,7 @@ jobs:
         with:
            image: netmille/gagrid-app-helloworld
            tags: v0.0.1-SNAPSHOT
-           registry: docker.io
+           registry: registry.hub.docker.com/v2/
            dockerfile: Dockerfile
            username: ${{ secrets.DOCKER_USERNAME }}
            password: ${{ secrets.DOCKER_PASSWORD }}
