@@ -6,7 +6,8 @@ name: gagrid-app-helloworld
       - master
 env:
    DOCKER_USER: ${{  secrets.DOCKER_USERNAME }}
-   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}           
+   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}    
+   PROJECT_NAME: ${GITHUB_REPOSITORY#*/}
 jobs:
   package:
     name: Build 
@@ -33,6 +34,6 @@ jobs:
       - name: Login to Docker
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
       - name: Build Docker Image
-        run: docker build -t netmille/gagrid-app-helloworld .
+        run: docker build -t netmille/$PROJECT_NAME .
       - name: Push Docker Image
-        run: docker push netmille/gagrid-app-helloworld 
+        run: docker push netmille/$PROJECT_NAME 
