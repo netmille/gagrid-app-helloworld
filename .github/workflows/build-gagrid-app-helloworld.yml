@@ -4,6 +4,9 @@ name: gagrid-app-helloworld
   push:
     branches:
       - master
+env:
+   DOCKER_USER: ${{  secrets.DOCKER_USERNAME }}
+   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}           
 jobs:
   package:
     name: Build 
@@ -28,9 +31,6 @@ jobs:
       - name: package
         run: mvn -DskipTests=true package
       - name: Login to Docker
-        env:
-           DOCKER_USER: ${{  secrets.DOCKER_USERNAME }}
-           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
       - name: Build Docker Image
         run: docker build -t netmille/gagrid-app-helloworld .
