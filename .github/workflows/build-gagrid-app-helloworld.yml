@@ -31,6 +31,8 @@ jobs:
         run: cat ~/.m2/settings.xml
       - name: package
         run: mvn -DskipTests=true package
+      - name: Set Release version env variable
+        run: echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Login to Docker
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
       - name: Build Docker Image
