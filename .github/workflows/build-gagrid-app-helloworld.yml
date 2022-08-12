@@ -8,6 +8,7 @@ env:
    DOCKER_USER: ${{  secrets.DOCKER_USERNAME }}
    DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}    
    PROJECT_NAME: ${{ github.event.repository.name }} 
+   PROJECT_VERSION: 'v0.1.0-beta'
 jobs:
   package:
     name: Build 
@@ -31,12 +32,9 @@ jobs:
         run: cat ~/.m2/settings.xml
       - name: package
         run: mvn -DskipTests=true package
-      - name: Set Release version env variable
-        run: | 
-            echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Login to Docker
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
       - name: Build Docker Image
-        run: docker build -t netmille/$PROJECT_NAME .
+        run: docker build -t netmille/$PROJECT_NAME:$PROJECT_VERSION .
       - name: Push Docker Image
-        run: docker push netmille/$PROJECT_NAME 
+        run: docker push netmille/$PROJECT_NAME:$PROJECT_VERSION 
