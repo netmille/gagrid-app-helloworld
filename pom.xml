@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.netmillennium.gagrid.app.helloworld</groupId>
 	<artifactId>gagrid-app-helloworld</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-beta</version>
 	<name>gagrid-app-helloworld</name>
 	<description>gagrid-app-helloworld</description>
 	<properties>
@@ -31,7 +31,7 @@
                <dependency>
 			<groupId>com.netmillennium.gagrid.services.helloworld</groupId>
 	                <artifactId>gagrid-services-helloworld</artifactId>
-	                <version>0.0.1-SNAPSHOT</version>
+	                <version>0.1.0-beta</version>
 		</dependency>
     <dependency>
         <groupId>org.apache.ignite</groupId>
