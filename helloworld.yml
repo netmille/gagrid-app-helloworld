@@ -1,0 +1,17 @@
+services:
+  gagrid-app-helloworld-service:
+    image: netmille/gagrid-app-helloworld:0.1.0-beta
+    environment:
+     - IGNITE_QUIET=false
+    depends_on:
+      - "ignite-gagrid-service"
+    networks: 
+      - optchange-network 
+  ignite-gagrid-service:
+    image:  netmille/ignite-gagrid:2.12.0_0.1.0-beta
+    environment:
+     - "IGNITE_QUIET=false"
+    networks: 
+      - optchange-network
+networks:
+  optchange-network: {}
