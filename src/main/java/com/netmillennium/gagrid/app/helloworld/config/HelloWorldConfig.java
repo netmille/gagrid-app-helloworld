@@ -1,17 +1,23 @@
 package com.netmillennium.gagrid.app.helloworld.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.ignite.Ignite;
+import org.apache.ignite.Ignition;
+import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
+import org.apache.ignite.spi.discovery.tcp.ipfinder.s3.TcpDiscoveryS3IpFinder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.env.Environment;
 
 import com.netmillennium.gagrid.services.helloworld.HelloWorldFitnessFunction;
 import com.netmillennium.gagrid.services.helloworld.HelloWorldTerminateCriteria;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.netmillennium.gagrid.model.Gene;
 import com.netmillennium.gagrid.parameter.GAConfiguration;
 import com.netmillennium.gagrid.parameter.GAGrid;
@@ -19,14 +25,9 @@ import com.netmillennium.gagrid.parameter.GAGrid;
 @Configuration
 public class HelloWorldConfig {
 
-	@Autowired
-	private Ignite ignite;
-	
-	@Autowired
-    private ApplicationContext applicationContext;
 	
 	@Bean ("gaConfiguration")
-	public GAConfiguration gaConfiguration()
+	public GAConfiguration gaConfiguration(@Autowired Ignite ignite)
 	{
         // Create GAConfiguration
         GAConfiguration gaConfig = new GAConfiguration();
@@ -52,10 +53,9 @@ public class HelloWorldConfig {
 	}
 	
 	@Bean("gaGrid")
-	@DependsOn("gaConfiguration")
-	public GAGrid gagrid()
+	public GAGrid gagrid(@Autowired GAConfiguration gaConfiguration, @Autowired Ignite ignite)
 	{
-		GAGrid gaGrid = new GAGrid((GAConfiguration)applicationContext.getBean("gaConfiguration"), ignite);
+		GAGrid gaGrid = new GAGrid(gaConfiguration, ignite);
 		
 		return gaGrid;
 	}
@@ -77,7 +77,53 @@ public class HelloWorldConfig {
             list.add(gene);
         }
         return list;
+    }	TcpDiscoverySpi spi = new TcpDiscoverySpi();
+
+    
+    @Bean("ignite")
+    public Ignite ignite(@Autowired Environment environment)
+    {
+    	 List lprofiles =  Arrays.asList(environment.getActiveProfiles());  
+  
+    	 if (lprofiles.contains("aws"))
+    		 return (s3discovery());
+    	 else  
+    		 return (multicastDiscovery());			 
     }
     
+    
+    /**
+     * AWS
+     * 
+     * @return Ignite
+     */
+    private Ignite s3discovery()
+      {
+	    AWSCredentialsProvider instanceProfileCreds = new InstanceProfileCredentialsProvider(false);
 
+	    TcpDiscoveryS3IpFinder ipFinder = new TcpDiscoveryS3IpFinder();
+	    ipFinder.setAwsCredentialsProvider(instanceProfileCreds);
+	    ipFinder.setBucketName("gagrid");
+
+	    spi.setIpFinder(ipFinder);
+
+	    IgniteConfiguration cfg = new IgniteConfiguration();
+
+	    // Override default discovery SPI.
+	    cfg.setDiscoverySpi(spi);
+
+	    // Start a node.
+	    return (Ignition.start(cfg));
+      }
+    
+    /**
+     * Local
+     * 
+     * @return Ignite
+     */
+    private Ignite multicastDiscovery()
+    {
+  		 IgniteConfiguration cfg = new IgniteConfiguration();
+  		 return Ignition.start(cfg);
+  	 }
 }

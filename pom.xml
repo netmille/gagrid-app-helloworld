@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.netmillennium.gagrid.app.helloworld</groupId>
 	<artifactId>gagrid-app-helloworld</artifactId>
-	<version>0.1.1-beta</version>
+	<version>0.1.2-beta</version>
 	<name>gagrid-app-helloworld</name>
 	<description>gagrid-app-helloworld</description>
 	<properties>
@@ -43,12 +43,15 @@
         <artifactId>ignite-indexing</artifactId>
         <version>${ignite.version}</version>
     </dependency>
-
-   <dependency>
-			<groupId>org.apache.ignite</groupId>
-			<artifactId>ignite-spring-boot-autoconfigure-ext</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+ <dependency>
+    <groupId>org.apache.ignite</groupId>
+    <artifactId>ignite-aws</artifactId>
+    <version>2.6.0</version>
+</dependency><dependency>
+<groupId>com.fasterxml</groupId>
+<artifactId>aalto-xml</artifactId>
+<version>1.2.2</version>
+</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
